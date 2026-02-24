@@ -13,4 +13,4 @@ cmds = [
 ]
 
 [start]
-cmd = "node dist/index.js gateway --port $PORT --bind 0.0.0.0"
+cmd = "bash start-railway.sh"
