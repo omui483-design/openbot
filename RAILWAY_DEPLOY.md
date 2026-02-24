@@ -46,8 +46,10 @@ OPENCLAW_DEFAULT_MODEL=gemini-2.0-flash-exp
 
 # ===== Gateway Configuration =====
 OPENCLAW_GATEWAY_TOKEN=generate_a_secure_random_token_here
+OPENCLAW_GATEWAY_MODE=local
+OPENCLAW_STATE_DIR=/app/data
 NODE_ENV=production
-OPENCLAW_GATEWAY_BIND=0.0.0.0
+OPENCLAW_GATEWAY_BIND=auto
 
 # ===== Telegram Bot (Optional) =====
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token
@@ -161,7 +163,7 @@ WhatsApp requires QR code scanning, which is tricky on Railway. Here are your op
 
 ### Can't Connect to Dashboard
 
-- Ensure `OPENCLAW_GATEWAY_BIND=0.0.0.0` is set
+- Ensure `OPENCLAW_GATEWAY_BIND=auto` is set (not 0.0.0.0)
 - Verify domain is generated and active
 - Check that gateway token matches in UI settings
 

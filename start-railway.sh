@@ -21,8 +21,8 @@ echo "Starting OpenClaw Gateway on port $PORT"
 echo "Gateway mode: $OPENCLAW_GATEWAY_MODE"
 echo "State directory: $OPENCLAW_STATE_DIR"
 
-# Start the gateway with allow-unconfigured flag
+# Start the gateway with auto bind (Railway compatible)
 exec node dist/index.js gateway \
   --port "$PORT" \
-  --bind 0.0.0.0 \
+  --bind auto \
   --allow-unconfigured
