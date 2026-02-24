@@ -3,14 +3,15 @@ nixPkgs = ["nodejs_22", "pnpm"]
 
 [phases.install]
 cmds = [
-  "pnpm install --frozen-lockfile"
+  "pnpm install --frozen-lockfile --prod"
 ]
 
 [phases.build]
 cmds = [
-  "pnpm build",
-  "pnpm ui:build"
+  "NODE_OPTIONS='--max-old-space-size=1024' pnpm build"
 ]
+# Skip UI build to save memory - comment out if you need UI
+# "NODE_OPTIONS='--max-old-space-size=1024' pnpm ui:build"
 
 [start]
 cmd = "bash start-railway.sh"

@@ -11,11 +11,26 @@ coverage/
 *.swo
 *~
 .DS_Store
+
+# Skip mobile apps (saves space and memory)
 apps/android/
 apps/ios/
 apps/macos/
+
+# Skip tests
 test/
 *.test.ts
 *.test.js
+**/*.test.ts
+**/*.test.js
+
+# Skip docs
 .github/
 docs/
+
+# Skip development files
+*.map
+*.md
+!README.md
+!RAILWAY_DEPLOY.md
+!MODELS_GUIDE.md
