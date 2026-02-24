@@ -1,0 +1,21 @@
+# Railway ignore file
+node_modules/
+.git/
+*.log
+.env.local
+.env.*.local
+coverage/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+apps/android/
+apps/ios/
+apps/macos/
+test/
+*.test.ts
+*.test.js
+.github/
+docs/

@@ -76,6 +76,15 @@ export function assertSafeWindowsShellArgs(args, platform = process.platform) {
   );
 }
 
+function quoteWindowsShellArg(arg) {
+  // If arg contains spaces or special chars, wrap in double quotes
+  if (/[\s"]/.test(arg)) {
+    // Escape any existing double quotes and wrap the whole thing
+    return `"${arg.replace(/"/g, '""')}"`;
+  }
+  return arg;
+}
+
 function createSpawnOptions(cmd, args, envOverride) {
   const useShell = shouldUseShellForCommand(cmd);
   if (useShell) {
@@ -91,8 +100,13 @@ function createSpawnOptions(cmd, args, envOverride) {
 
 function run(cmd, args) {
   let child;
+  const options = createSpawnOptions(cmd, args);
+  // Quote the command path if it contains spaces and we're using shell on Windows
+  const finalCmd = options.shell && process.platform === "win32" && /\s/.test(cmd) 
+    ? `"${cmd}"` 
+    : cmd;
   try {
-    child = spawn(cmd, args, createSpawnOptions(cmd, args));
+    child = spawn(finalCmd, args, options);
   } catch (err) {
     console.error(`Failed to launch ${cmd}:`, err);
     process.exit(1);
@@ -112,8 +126,13 @@ function run(cmd, args) {
 
 function runSync(cmd, args, envOverride) {
   let result;
+  const options = createSpawnOptions(cmd, args, envOverride);
+  // Quote the command path if it contains spaces and we're using shell on Windows
+  const finalCmd = options.shell && process.platform === "win32" && /\s/.test(cmd) 
+    ? `"${cmd}"` 
+    : cmd;
   try {
-    result = spawnSync(cmd, args, createSpawnOptions(cmd, args, envOverride));
+    result = spawnSync(finalCmd, args, options);
   } catch (err) {
     console.error(`Failed to launch ${cmd}:`, err);
     process.exit(1);
