@@ -10,7 +10,19 @@ if ! [[ "$PORT" =~ ^[0-9]+$ ]]; then
   export PORT=18789
 fi
 
-echo "Starting OpenClaw Gateway on port $PORT"
+# Set environment for OpenClaw
+export OPENCLAW_STATE_DIR=${OPENCLAW_STATE_DIR:-/app/data}
+export OPENCLAW_GATEWAY_MODE=${OPENCLAW_GATEWAY_MODE:-local}
 
-# Start the gateway
-exec node dist/index.js gateway --port "$PORT" --bind 0.0.0.0
+# Create data directory
+mkdir -p "$OPENCLAW_STATE_DIR"
+
+echo "Starting OpenClaw Gateway on port $PORT"
+echo "Gateway mode: $OPENCLAW_GATEWAY_MODE"
+echo "State directory: $OPENCLAW_STATE_DIR"
+
+# Start the gateway with allow-unconfigured flag
+exec node dist/index.js gateway \
+  --port "$PORT" \
+  --bind 0.0.0.0 \
+  --allow-unconfigured

@@ -1,0 +1,45 @@
+{
+  "gateway": {
+    "mode": "local",
+    "port": 18789,
+    "bind": "0.0.0.0",
+    "token": "${OPENCLAW_GATEWAY_TOKEN}"
+  },
+  "models": {
+    "providers": {
+      "google": {
+        "apiKey": "${GOOGLE_API_KEY}"
+      },
+      "anthropic": {
+        "apiKey": "${ANTHROPIC_API_KEY}"
+      },
+      "openai": {
+        "apiKey": "${OPENAI_API_KEY}"
+      },
+      "moonshot": {
+        "apiKey": "${MOONSHOT_API_KEY}"
+      },
+      "deepseek": {
+        "apiKey": "${DEEPSEEK_API_KEY}"
+      },
+      "groq": {
+        "apiKey": "${GROQ_API_KEY}"
+      }
+    },
+    "default": "${OPENCLAW_DEFAULT_MODEL}"
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "token": "${TELEGRAM_BOT_TOKEN}",
+      "username": "${TELEGRAM_BOT_USERNAME}"
+    },
+    "whatsapp": {
+      "enabled": false,
+      "sessionPath": "${WHATSAPP_SESSION_PATH}"
+    }
+  },
+  "logging": {
+    "level": "${OPENCLAW_LOG_LEVEL}"
+  }
+}
