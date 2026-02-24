@@ -1,0 +1,49 @@
+# Google Cloud Run Dockerfile for OpenClaw
+FROM node:22-slim
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    bash \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+COPY ui/package.json ./ui/
+
+# Install pnpm
+RUN npm install -g pnpm@10.23.0
+
+# Install dependencies (production only to save space)
+RUN pnpm install --frozen-lockfile --prod
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN NODE_OPTIONS='--max-old-space-size=2048' pnpm build
+
+# Build UI (optional - comment out if memory issues)
+RUN NODE_OPTIONS='--max-old-space-size=2048' pnpm ui:build || echo "UI build skipped"
+
+# Create data directory
+RUN mkdir -p /app/data
+
+# Set environment variables
+ENV NODE_ENV=production
+ENV OPENCLAW_STATE_DIR=/app/data
+ENV OPENCLAW_GATEWAY_MODE=local
+ENV PORT=8080
+
+# Expose port (Cloud Run uses PORT env variable)
+EXPOSE 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:' + (process.env.PORT || 8080) + '/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"
+
+# Start the gateway
+CMD ["node", "dist/index.js", "gateway", "--bind", "auto", "--allow-unconfigured"]
