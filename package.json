@@ -28,6 +28,8 @@
     "README.md",
     "start-railway.sh",
     "start-railway-lite.sh",
+    "start-render.sh",
+    "render.yaml",
     "assets/",
     "dist/",
     "docs/",

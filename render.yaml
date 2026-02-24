@@ -3,8 +3,11 @@ services:
     name: openclaw-gateway
     runtime: node
     plan: free
-    buildCommand: pnpm install --prod && pnpm build
-    startCommand: bash start-railway.sh
+    region: oregon
+    buildCommand: pnpm install --frozen-lockfile --prod && pnpm build
+    startCommand: bash start-render.sh
+    healthCheckPath: /
+    autoDeploy: true
     envVars:
       - key: NODE_ENV
         value: production
@@ -15,7 +18,7 @@ services:
       - key: OPENCLAW_GATEWAY_BIND
         value: auto
       - key: NODE_OPTIONS
-        value: --max-old-space-size=450
+        value: --max-old-space-size=400
       - key: OPENCLAW_LOG_LEVEL
         value: info
       # Add your secrets in Render dashboard
