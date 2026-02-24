@@ -26,6 +26,8 @@
     "openclaw.mjs",
     "README-header.png",
     "README.md",
+    "start-railway.sh",
+    "start-railway-lite.sh",
     "assets/",
     "dist/",
     "docs/",
